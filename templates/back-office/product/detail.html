@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .product-info {
+            display: table;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        .product-info .card-header,
+        .product-info .card-body {
+            display: table-row;
+        }
+        .product-info .card-header h3,
+        .product-info .card-header h5,
+        .product-info .card-body p {
+            display: table-cell;
+            padding: 10px;
+            border: 1px solid #dee2e6;
+        }
+        .product-images {
+            display: table;
+            width: 100%;
+        }
+        .product-images .card {
+            display: table-cell;
+            margin: 10px;
+            border: 1px solid #dee2e6;
+        }
+        .product-images .card img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <div class="product-info card mb-4 shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h3 class="card-title">{{ queryset.name }}</h3>
+            <h5 class="card-subtitle mb-2">{{ queryset.category.name }}</h5>
+        </div>
+        <div class="card-body">
+            <p class="card-text"><strong>Mavjud:</strong> {{ queryset.quantity }}</p>
+            <p class="card-text">{{ queryset.description }}</p>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="product-images">
+        {% for image in images %}
+        <div class="card h-100 shadow-sm">
+            <img src="{{ image.img.url }}" alt="" class="img-fluid rounded">
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
