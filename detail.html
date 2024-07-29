@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Cart</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evシンQhVpFNsCJhQvNKJuuzyT7 będjgKt/jbVuEVVbROrbuIr/gYnDMCq3zFn3I9" crossorigin="anonymous">
+</head>
+<body>
+  <div class="container mt-3">
+    <h2>Your Shopping Cart</h2>
+
+    {% if cart %}
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Subtotal</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for cart_product in cart.cartproduct_set.all %}
+          <tr>
+            <td>
+              <a href="{% url 'product_detail' cart_product.product.generate_code %}">{{ cart_product.product.name }}</a>
+            </td>
+            <td>
+              <form method="get" action="{% url 'substract_product_from_cart' %}">
+                {% csrf_token %}
+                <input type="hidden" name="code" value="{{ cart_product.generate_code }}">
+                <input type="number" name="quantity" min="1" value="{{ cart_product.quantity }}" style="width: 50px;">
+                <button type="submit" class="btn btn-sm btn-secondary">Update</button>
+              </form>
+            </td>
+            <td>{{ cart_product.product.price }}</td>
+            <td>{{ cart_product.product.price * cart_product.quantity }}</td>
+            <td>
+              <form method="get" action="{% url 'delete_product_from_cart' %}">
+                {% csrf_token %}
+                <input type="hidden" name="code" value="{{ cart_product.generate_code }}">
+                <button type="submit" class="btn btn-sm btn-danger">Remove</button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <div class="row">
+        <div class="col-md-6">
+          </div>
+        <div class="col-md-6 text-end">
+          <a href="{% url 'create_order' %}" class="btn btn-primary">Checkout</a>
+        </div>
+      </div>
+
+    {% else %}
+      <p>Your cart is currently empty.</p>
+    {% endif %}
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-Ogwb3sjFraO1zCHqH8tT8cXOkbkuoLiUxlNkR52cQlIlzgIGwTl67V4zVDgZKl0" crossorigin="anonymous"></script>
+</body>
+</html>
